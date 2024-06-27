@@ -9,6 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.controllers.BookController;
 import ru.otus.hw.dto.*;
+import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.mappers.BookMapper;
 import ru.otus.hw.services.AuthorService;
 import ru.otus.hw.services.BookService;
@@ -107,5 +108,16 @@ public class BookControllerTest {
 
         mockMvc.perform(post("/book/create").flashAttr("book", bookCreateDto))
                 .andExpect(view().name("book/edit"));
+    }
+
+    @DisplayName("выбросить EntityNotFoundException при создании книги")
+    @Test
+    public void shouldThrowEntityNotFoundExceptionOnBookCreation() throws Exception {
+        var bookCreateDto = new BookCreateDto(null, "New Book Title", 999L, Set.of(1L));
+        BDDMockito.given(bookService.insert(bookCreateDto)).willThrow(new EntityNotFoundException("Author is not found"));
+
+        mockMvc.perform(post("/book/create").flashAttr("book", bookCreateDto))
+                .andExpect(view().name("error/entitynotfound"))
+                .andExpect(model().attribute("errorMessage", "Author is not found"));
     }
 }
