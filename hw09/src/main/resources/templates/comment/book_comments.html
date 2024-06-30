@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Comments for book</title>
+    <style type="text/css">
+        .table{
+            border: 1px solid #eee;
+            table-layout: fixed;
+            width: 80%;
+            margin-bottom: 20px;
+        }
+        .table th {
+            font-weight: bold;
+            padding: 5px;
+            background: #efefef;
+            border: 1px solid #dddddd;
+        }
+        .table td{
+            padding: 5px 10px;
+            border: 1px solid #eee;
+            text-align: left;
+        }
+        .table tbody tr:nth-child(odd){
+            background: #fff;
+        }
+        .table tbody tr:nth-child(even){
+            background: #F7F7F7;
+        }
+        ul {
+	        list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+<h1>
+    Book
+</h1>
+<div th:object="${book}">
+    <table>
+        <tbody>
+        <tr>
+            <td>
+                <label for="book-title">Title:</label>
+            </td>
+            <td>
+                <input id="book-title" type="text" readonly="readonly" value="Dummy" th:value="*{title}"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="book-author">Author:</label>
+            </td>
+            <td>
+                <input id="book-author" type="text" readonly="readonly" value="Dummy"
+                       th:value="*{author.fullName}"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="book-genre">Genres:</label>
+            </td>
+            <td>
+                <ul id="book-genre">
+                    <li th:each="genre : *{genres}" th:attr="data-value=${genre.name}">
+                        <span th:text="${genre.name}" th:remove="tag"></span>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Comments:</h3>
+    <table class="comments">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="comment : ${comments}" th:object="${comment}">
+            <td th:text="${comment.id}">1</td>
+            <td th:text="${comment.text}">Nice</td>
+        </tr>
+        </tbody>
+    </table>
+    <div>
+        <a href="/" th:href="@{/}">
+            <button type="button">Books</button>
+        </a>
+    </div>
+</div>
+</body>
+</html>
