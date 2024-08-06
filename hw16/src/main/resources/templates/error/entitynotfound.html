@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error page</title>
+</head>
+<body>
+    <h1>Failed to process your request</h1>
+    <div>
+        <span><strong>Error is:</strong></span>
+        <span th:text="${errorMessage}">Dummy</span>
+    </div>
+</body>
+</html>
