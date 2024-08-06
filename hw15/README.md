@@ -1,0 +1,9 @@
+# Homework#15
+## Requirements
+
+1. Выберите другую доменную область и сущности. Пример: превращение гусеницы в бабочку.
+2. Опишите/сконфигурируйте процесс (IntegrationFlow) с помощью инструментария предоставляемого Spring Integration.
+3. Желательно использование MessagingGateway и subfolw (при необходимости).
+
+## How to run
+Execute Application class
