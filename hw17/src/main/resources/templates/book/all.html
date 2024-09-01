@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All books</title>
+    <style type="text/css">
+        .table{
+            border: 1px solid #eee;
+            table-layout: fixed;
+            width: 80%;
+            margin-bottom: 20px;
+        }
+        .table th {
+            font-weight: bold;
+            padding: 5px;
+            background: #efefef;
+            border: 1px solid #dddddd;
+        }
+        .table td{
+            padding: 5px 10px;
+            border: 1px solid #eee;
+            text-align: left;
+        }
+        .table tbody tr:nth-child(odd){
+            background: #fff;
+        }
+        .table tbody tr:nth-child(even){
+            background: #F7F7F7;
+        }
+        ul {
+	        list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+<h1>
+    Books
+</h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Comments</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}" th:object="${book}">
+        <form id="delete-book" action="all.html" th:method="post" th:action="@{/book/delete/{id}(id = ${book.id})}">
+            <td th:text="*{id}">1</td>
+            <td th:text="*{title}">Dummy</td>
+            <td th:text="*{author.fullName}">Dummy</td>
+            <td>
+                <ul>
+                    <li th:each="genre : *{genres}" th:attr="data-value=${genre.name}">
+                        <span th:text="${genre.name}" th:remove="tag"></span>
+                    </li>
+                </ul>
+            </td>
+            <td>
+                <a href="../comment/book_comments.html"
+                   th:href="@{/comment(book_id=*{id})}">Show comments</a>
+            </td>
+            <td>
+                <a href="edit.html" th:href="@{/book/edit/{id}(id = ${book.id})}">Edit</a>
+                <button type="submit">Delete</button>
+            </td>
+        </form>
+    </tr>
+    </tbody>
+</table>
+<div>
+    <a href="edit.html" th:href="@{/book/create}">
+        <button type="button">Create New book</button>
+    </a>
+</div>
+<div>
+    <a href="../author/all.html" th:href="@{/author/all}">
+        <button type="button">Authors</button>
+    </a>
+</div>
+<div>
+    <a href="../genre/all.html" th:href="@{/genre/all}">
+        <button type="button">Genres</button>
+    </a>
+</div>
+</body>
+</html>
