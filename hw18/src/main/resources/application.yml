@@ -1,0 +1,56 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:maindb
+  liquibase:
+    enabled:true
+  jpa:
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  jmx:
+    enabled:true
+  data:
+    rest:
+      base-path: sdr
+  messages:
+    encoding: UTF-8
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        register-health-indicator: true
+        slidingWindowSize: 3
+        permittedNumberOfCallsInHalfOpenState: 3
+        slowCallDurationThreshold: 2s
+        slowCallRateThreshold: 10
+        failureRateThreshold: 3
+        waitDurationInOpenState: 2s
+        minimumNumberOfCalls: 3
+
+management:
+  endpoint:
+    health:
+      show-details: always
+    logfile:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "caches-cache"
+      base-path: "/metrics"
+  health:
+    circuitbreakers:
+      enabled: true
+    diskspace:
+      enabled: true
+    defaults:
+      enabled: true
+
+logging:
+  level:
+    ROOT: DEBUG
+  file:
+    name: "hw18"
